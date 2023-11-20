@@ -9,6 +9,14 @@ function analyzeImage(imageUrl) {
     body: JSON.stringify({ url: imageUrl, features: features })
   };
 
+  function isConfigured() {
+  const endpoint = process.env.REACT_APP_AZURE_IMAGE_ANALYSIS_ENDPOINT;
+  const apiKey = process.env.REACT_APP_AZURE_IMAGE_ANALYSIS_API_KEY;
+
+  return endpoint && apiKey;
+}
+
+  
   return fetch(endpoint, requestOptions)
     .then(response => response.json())
     .then(data => {
@@ -17,4 +25,4 @@ function analyzeImage(imageUrl) {
     });
 }
 
-export default analyzeImage;
+export default { isConfigured, analyzeImage };
