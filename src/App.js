@@ -9,6 +9,7 @@ class App extends React.Component {
     this.state = { url: '', loading: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleAnalyzeImage = this.handleAnalyzeImage.bind(this);
+    this.handleGenerateImage = this.handleGenerateImage.bind(this);
   }
 
   handleChange(event) {
@@ -17,21 +18,27 @@ class App extends React.Component {
 
   handleAnalyzeImage(event) {
     event.preventDefault();
+    if (!azureImageAnalysis.isConfigured()) {
+      this.setState({ error: true });
+      return;
+    }
     this.setState({ loading: true });
-    analyzeImage(this.state.url)
+    azureImageAnalysis.analyzeImage(this.state.url)
       .then(results => {
-        // Actualiza el estado de la aplicación con los resultados de la API
-        this.setState({ loading: false });
+        this.setState({ loading: false, results: results });
       });
   }
 
   handleGenerateImage(event) {
     event.preventDefault();
+    if (!azureImageGeneration.isConfigured()) {
+      this.setState({ error: true });
+      return;
+    }
     this.setState({ loading: true });
-    generateImage(this.state.url)
+    azureImageGeneration.generateImage(this.state.url)
       .then(results => {
-        // Actualiza el estado de la aplicación con los resultados de la API
-        this.setState({ loading: false });
+        this.setState({ loading: false, results: results });
       });
   }
 
@@ -64,6 +71,7 @@ class App extends React.Component {
           <button type="button" onClick={this.handleGenerateImage>Generar imagen</button>
           {this.state.loading && <span>Procesando...</span>}
         </form>
+        {this.state.error && <p>Error: la aplicación no está configurada correctamente.</p>}
         {this.DisplayResults()}
       </div>
       
