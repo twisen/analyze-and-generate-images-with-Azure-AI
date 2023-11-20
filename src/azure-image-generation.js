@@ -1,6 +1,6 @@
 function generateImage(imageUrl) {
-  const endpoint = 'https://<your-endpoint>.openai.azure.com/openai/deployments/<your-deployment>/completions';
-  const apiKey = '<your-api-key>';
+  const endpoint = 'https://_______MiEndpoint______.openai.azure.com/openai/deployments/<your-deployment>/completions';
+  const apiKey = '_____MiAPIKey_______';
 
   const requestOptions = {
     method: 'POST',
