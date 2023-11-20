@@ -1,5 +1,7 @@
 import React from 'react';
 import analyzeImage from './azure-image-analysis';
+import generateImage from './azure-image-generation';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +19,16 @@ class App extends React.Component {
     event.preventDefault();
     this.setState({ loading: true });
     analyzeImage(this.state.url)
+      .then(results => {
+        // Actualiza el estado de la aplicación con los resultados de la API
+        this.setState({ loading: false });
+      });
+  }
+
+  handleGenerateImage(event) {
+    event.preventDefault();
+    this.setState({ loading: true });
+    generateImage(this.state.url)
       .then(results => {
         // Actualiza el estado de la aplicación con los resultados de la API
         this.setState({ loading: false });
@@ -42,14 +54,14 @@ class App extends React.Component {
     return (
       <div>
         <h1>Computer Vision</h1>
-        <form onSubmit={this.handleAnalyzeImage}>
+        <form>
           <label>
             Insertar URL or escribir prompt:
             <input type="text" value={this.state.url} onChange={this.handleChange} />
           </label>
           <br />
-          <button type="submit">Analizar imagen</button>
-          <button type="submit">Generar imagen</button>
+          <button type="button" onClick={this.handleAnalyzeImage}>Analizar imagen</button>
+          <button type="button" onClick={this.handleGenerateImage>Generar imagen</button>
           {this.state.loading && <span>Procesando...</span>}
         </form>
         {this.DisplayResults()}
