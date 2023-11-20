@@ -7,6 +7,13 @@ function generateImage(imageUrl) {
     headers: { 'Content-Type': 'application/json', 'api-key': apiKey },
     body: JSON.stringify({ prompt: `Generate an image based on the following URL: ${imageUrl}` })
   };
+  
+  function isConfigured() {
+  const endpoint = process.env.REACT_APP_AZURE_IMAGE_GENERATION_ENDPOINT;
+  const apiKey = process.env.REACT_APP_AZURE_IMAGE_GENERATION_API_KEY;
+
+  return endpoint && apiKey;
+}
 
   return fetch(endpoint, requestOptions)
     .then(response => response.json())
@@ -16,4 +23,4 @@ function generateImage(imageUrl) {
     });
 }
 
-export default generateImage;
+export default { isConfigured, generateImage };
